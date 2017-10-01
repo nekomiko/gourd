@@ -21,7 +21,6 @@ class Application:
         response = None
         request = Request(environ)
         for pattern in self.urlpatterns:
-            # TODO: add request parsing
             mt = re.fullmatch(pattern[0], environ["PATH_INFO"])
             if mt:
                 ar, kw = extract_args_from_re(pattern[0], mt)
@@ -39,7 +38,9 @@ class Application:
         return response.send_response(environ, start_response)
 
     def route(self, path):
-        '''Routing decorator factory'''
+        '''Routing decorator factory
+        used to connect urlpattern to view function
+        in application context'''
         def decorator(view):
             self.add_urlpattern(path, view.__name__, view)
             return view
@@ -47,6 +48,8 @@ class Application:
 
 
 def extract_args_from_re(r, mt):
+    '''Extracts parameters from regexp groups to pass
+    as *args,**kwargs to view function'''
     named_idx = r.groupindex.values()
     all_grp = mt.groups()
     args = [all_grp[i] for i in range(len(all_grp))
