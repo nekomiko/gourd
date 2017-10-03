@@ -32,7 +32,7 @@ def show_id(request, id):
 
 # Named arguments test
 # arguments are intentionnaly swapped, for testing insensivity to order
-# of positional arguments
+# of keyword arguments
 @app.route("/mid/(?P<mid>\d+)/pid/(?P<pid>\d+)")
 def show_two_ids(request, pid, mid):
     return "Mid = {}<br \>Pid = {}".format(mid, pid)
